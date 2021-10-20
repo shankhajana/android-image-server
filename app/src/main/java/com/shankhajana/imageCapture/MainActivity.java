@@ -146,10 +146,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(openGallery);
                 return true;
             case R.id.item2:
-                Toast.makeText(getApplicationContext(), "Create by Shankha jana!", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Created by Shankha jana!", Toast.LENGTH_LONG).show();
                 return true;
             case R.id.item3:
-                Toast.makeText(getApplicationContext(), "Item 3 Selected", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Image server version 1.0", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
         description=(EditText)findViewById(R.id.t2);
         final String desc=description.getText().toString().trim();
+
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -234,16 +235,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    //this method t
-    public String getFinalurl() {
-        //reading the entered server ip value
-        SharedPreferences sh = getSharedPreferences(Util.MyPREFERENCES, MODE_PRIVATE);
-        String enteredIp = sh.getString(Util.IP, "");
-        final String finalurl = "http://" + enteredIp + ":8000/save-image";
-        Log.e("url", "" + url);
-        return finalurl;
-    }
     // alternative method to upload multipart data
     private void uploadDataToServer(final Bitmap bitmap) {
 
@@ -252,9 +243,11 @@ public class MainActivity extends AppCompatActivity {
         if (title.equalsIgnoreCase("")) {
             imageTitle.setError("This field can not be blank");
         }
+        String saveURI= EndpointUtil.getSaveImageUrlEndpoint(this);
+        Log.e("URL",saveURI);
         //dialog bar to show upload progress
         final ProgressDialog dialog = ProgressDialog.show(this, null, "Please Wait");
-        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, getFinalurl(),
+        VolleyMultipartRequest volleyMultipartRequest = new VolleyMultipartRequest(Request.Method.POST, saveURI,
                 new Response.Listener<NetworkResponse>() {
                     @Override
                     public void onResponse(NetworkResponse response) {
@@ -279,7 +272,6 @@ public class MainActivity extends AppCompatActivity {
                         Log.e("GotError",""+error.getMessage());
                     }
                 }) {
-
 
             @Override
             protected Map<String, DataPart> getByteData() {

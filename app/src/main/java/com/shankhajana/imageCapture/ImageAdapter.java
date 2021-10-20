@@ -2,7 +2,6 @@ package com.shankhajana.imageCapture;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.io.File;
 import java.util.List;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.myviewholder>
@@ -42,8 +42,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.myviewholder
     {
          GalleryResponseBody imgMetadata= data.get(position);
          holder.tv.setText(imgMetadata.getTitle());
-         String fileUrl="http://192.168.0.106:8000/"+imgMetadata.getUploadedFileName();
-        Log.e("URL",""+fileUrl);
+        // String fileUrl="http://192.168.0.106:8000/"+imgMetadata.getUploadedFileName();
+        String fileUrl= EndpointUtil.getBaseURI(context.getApplicationContext())
+                +"/"+imgMetadata.getUploadedFileName();
+
          Glide.with(holder.img.getContext()).load(fileUrl).into(holder.img);
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override

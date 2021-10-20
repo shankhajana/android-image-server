@@ -7,8 +7,8 @@
     <item  android:id="@+id/open_Gallery_menu"
         android:title="Open Gallery"/>
     <item  android:id="@+id/item2"
-        android:title="Item 2"/>
+        android:title="About"/>
     <item  android:id="@+id/item3"
-        android:title="Item 3"
+        android:title="Version"
         app:showAsAction="withText"/>
 </menu>
